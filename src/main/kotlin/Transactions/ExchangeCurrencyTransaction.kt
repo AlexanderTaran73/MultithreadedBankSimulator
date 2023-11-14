@@ -10,11 +10,12 @@ class ExchangeCurrencyTransaction( var transactionData: ExchangeCurrencyTransact
     }
 }
 
-class ExchangeCurrencyTransactionData(override val transactionType: String = "ExchangeCurrency",
-                                      val client: Client,
+class ExchangeCurrencyTransactionData(val client: Client,
                                       val fromCurrency: String,
                                       val toCurrency: String,
-                                      val amount: Double) : TransactionData
+                                      val amount: Double,
+                                      val ratio: Double,
+                                      override val transactionType: String = "ExchangeCurrency") : TransactionData
 
 
 
