@@ -7,14 +7,14 @@ class TransferTransaction(var transactionData: TransferTransactionData) : Transa
 
         try {
             if (transactionData.senderClient.deposits[transactionData.currency] == null)
-                return TransferTransactionCallBack("The sender does not have such currency", "Incorrect data")
+                return TransferTransactionCallBack("${transactionData.transactionType}: The sender does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Incorrect data")
             if (transactionData.receiverClient.deposits[transactionData.currency] == null)
-                return TransferTransactionCallBack("The receiver does not have such currency", "Incorrect data")
+                return TransferTransactionCallBack("${transactionData.transactionType}: The receiver does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Incorrect data")
 
             synchronized(transactionData.senderClient.deposits[transactionData.currency]!!) {
                 val senderDeposit = transactionData.senderClient.deposits[transactionData.currency]!!.amount
                 if (senderDeposit - transactionData.amount < 0.0)
-                    return TransferTransactionCallBack("Insufficient funds for transfer", "Insufficient funds")
+                    return TransferTransactionCallBack("${transactionData.transactionType}: Insufficient funds for transfer / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Insufficient funds")
                 transactionData.senderClient.deposits[transactionData.currency]!!.amount =
                     senderDeposit - transactionData.amount
             }
@@ -25,9 +25,9 @@ class TransferTransaction(var transactionData: TransferTransactionData) : Transa
             }
         }
         catch (_:Exception){
-            return TransferTransactionCallBack("An unknown error occurred during the transaction", "Error")
+            return TransferTransactionCallBack("${transactionData.transactionType}: An unknown error occurred during the transaction / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Error")
         }
-        return TransferTransactionCallBack("The transfer was successful", "OK")
+        return TransferTransactionCallBack("${transactionData.transactionType}: The transfer was successful / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "OK")
     }
 }
 
