@@ -6,14 +6,14 @@ class ExchangeCurrencyTransaction( var transactionData: ExchangeCurrencyTransact
     override fun makeTransaction(): TransactionCallBack {
         try {
             if (transactionData.client.deposits[transactionData.fromCurrency] == null)
-                return WithdrawTransactionCallBack("${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Incorrect data")
+                return WithdrawTransactionCallBack("Incorrect data. ${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Error")
             if (transactionData.client.deposits[transactionData.toCurrency] == null)
-                return WithdrawTransactionCallBack("${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Incorrect data")
+                return WithdrawTransactionCallBack("Incorrect data. ${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Error")
 
             synchronized(transactionData.client.deposits[transactionData.fromCurrency]!!) {
                 val deposit = transactionData.client.deposits[transactionData.fromCurrency]!!
                 if (deposit.amount - transactionData.amount < 0.0)
-                    return ExchangeCurrencyTransactionCallBack("${transactionData.transactionType}: Insufficient funds for exchange / ClientID ${transactionData.client.id}", "Insufficient funds")
+                    return ExchangeCurrencyTransactionCallBack("Insufficient funds. ${transactionData.transactionType}: Insufficient funds for exchange / ClientID ${transactionData.client.id}", "Error")
 
                 transactionData.client.deposits[transactionData.fromCurrency]!!.amount =
                     deposit.amount - transactionData.amount

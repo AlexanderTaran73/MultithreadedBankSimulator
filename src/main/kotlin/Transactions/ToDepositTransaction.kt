@@ -6,7 +6,7 @@ class ToDepositTransaction(var transactionData: ToDepositTransactionData): Trans
     override fun makeTransaction(): TransactionCallBack {
         try {
             if (transactionData.client.deposits[transactionData.currency] == null)
-                return ToDepositTransactionCallBack("${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Incorrect data")
+                return ToDepositTransactionCallBack("Incorrect data. ${transactionData.transactionType}: The client does not have such currency / ClientID ${transactionData.client.id}", "Error")
             synchronized(transactionData.client.deposits[transactionData.currency]!!) {
                 val deposit = transactionData.client.deposits[transactionData.currency]!!
                 transactionData.client.deposits[transactionData.currency]!!.amount =

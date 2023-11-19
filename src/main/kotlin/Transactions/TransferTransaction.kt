@@ -7,14 +7,14 @@ class TransferTransaction(var transactionData: TransferTransactionData) : Transa
 
         try {
             if (transactionData.senderClient.deposits[transactionData.currency] == null)
-                return TransferTransactionCallBack("${transactionData.transactionType}: The sender does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Incorrect data")
+                return TransferTransactionCallBack("Incorrect data. ${transactionData.transactionType}: The sender does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Error")
             if (transactionData.receiverClient.deposits[transactionData.currency] == null)
-                return TransferTransactionCallBack("${transactionData.transactionType}: The receiver does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Incorrect data")
+                return TransferTransactionCallBack("Incorrect data. ${transactionData.transactionType}: The receiver does not have such currency / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Error")
 
             synchronized(transactionData.senderClient.deposits[transactionData.currency]!!) {
                 val senderDeposit = transactionData.senderClient.deposits[transactionData.currency]!!.amount
                 if (senderDeposit - transactionData.amount < 0.0)
-                    return TransferTransactionCallBack("${transactionData.transactionType}: Insufficient funds for transfer / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Insufficient funds")
+                    return TransferTransactionCallBack("Insufficient funds. ${transactionData.transactionType}: Insufficient funds for transfer / SenderClientID ${transactionData.senderClient.id}  ReceiverClientID ${transactionData.receiverClient.id}", "Error")
                 transactionData.senderClient.deposits[transactionData.currency]!!.amount =
                     senderDeposit - transactionData.amount
             }

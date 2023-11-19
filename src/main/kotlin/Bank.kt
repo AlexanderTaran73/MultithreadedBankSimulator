@@ -1,3 +1,4 @@
+import Observers.Observer
 import Transactions.*
 import com.google.gson.Gson
 import java.net.URL
@@ -24,14 +25,12 @@ class Bank {
             gson.fromJson(json, ExchangeRate::class.java).also {
                 if (it.success) it.rates.forEach{
                     (key, value) -> exchangeRates[key] = value
-                    notifyObservers("$key exchange rate has been updated. New course $value\n", "OK")
+                    notifyObservers("CurReqLog","$key exchange rate has been updated. New course $value", "OK")
                 }
                 else {
-                    notifyObservers("Failed to update currency rate\n", "Service Unavailable")
+                    notifyObservers("CurReqLog","Failed to update currency rate", "Service Unavailable")
                 }
             }
-//            println(exchangeRates)
-
         }, 0, 60, TimeUnit.SECONDS)
     }
 
@@ -39,9 +38,9 @@ class Bank {
         observers.add(observer)
     }
 
-    fun notifyObservers(message: String, status: String) {
+    fun notifyObservers(type: String, message: String, status: String) {
         observers.forEach {
-            it.update(message, status)
+            it.update(type, message, status)
         }
     }
 }

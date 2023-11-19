@@ -7,11 +7,11 @@ class Cashier(val id : Int, val bank : Bank) : Thread(){
             val transaction = bank.transactionQueue.poll()
             if (transaction!=null){
                 val transactionCallBack = transaction.makeTransaction()
-                bank.notifyObservers("Cashier $id: Made transaction:\n   ${transactionCallBack.message}", transactionCallBack.status)
+                bank.notifyObservers("TransLog","Cashier $id: Made transaction: ${transactionCallBack.message}", transactionCallBack.status)
 
             }else{
-                bank.notifyObservers("Cashier $id: There are no transactions at the moment\n", "OK")
-                Thread.sleep(5000)
+//                bank.notifyObservers("Cashier $id: There are no transactions at the moment\n", "OK")
+//                Thread.sleep(5000)
             }
         }
     }
