@@ -10,8 +10,7 @@ class Cashier(val id : Int, val bank : Bank) : Thread(){
                 bank.notifyObservers("TransLog","Cashier $id: Made transaction: ${transactionCallBack.message}", transactionCallBack.status)
 
             }else{
-//                bank.notifyObservers("Cashier $id: There are no transactions at the moment\n", "OK")
-//                Thread.sleep(5000)
+//
             }
         }
     }
