@@ -9,7 +9,7 @@
 
 1. **Скачайте проект:**
     ```bash
-   https://github.com/AlexanderTaran73/MultithreadedBankSimulator
+   https://github.com/AlexanderTaran73/MultithreadedBankSimulator.git
    ```
 
 2. **Перейдите в каталог проекта:**
